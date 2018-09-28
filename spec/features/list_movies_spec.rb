@@ -33,4 +33,16 @@ describe "Viewing the list of movies" do
 	expect(page).to have_text("$318,412,101.00")
   end
   
+  it "only shows movies that have already been released" do
+  	future_movie = Movie.create(title: "To the future!",
+  	rating: "PG",
+  	total_gross: 0.0,
+  	description: "Only the fortune tellers know!",
+  	released_on: "3000-01-01")
+
+  	visit movies_url
+
+  	expect(page).not_to have_text(future_movie.title)
+  	expect(page).not_to have_text(future_movie.description[0..10])
+  end
 end
